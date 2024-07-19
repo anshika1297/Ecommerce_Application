@@ -24,12 +24,15 @@ class CategoryActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_category)
+
         recyclerView = findViewById(R.id.categoryList)
+        searchView = findViewById(R.id.searchView)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         categoryAdapter = CategoryAdapter(this, emptyList(), this)
         recyclerView.adapter = categoryAdapter
 
+        // Set up Retrofit for category API
         val retrofit = Retrofit.Builder()
             .baseUrl("https://dummyjson.com/products/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -52,11 +55,32 @@ class CategoryActivity : AppCompatActivity(), CategoryAdapter.OnItemClickListene
                 // Handle failure
             }
         })
+
+        // Set up search functionality
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrBlank()) {
+                    searchProducts(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Optionally handle text change
+                return true
+            }
+        })
     }
 
     override fun onItemClick(category: Category.CategoryItem) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("url", category.url)
+        startActivity(intent)
+    }
+
+    private fun searchProducts(query: String) {
+        val intent = Intent(this@CategoryActivity, SearchProductActivity::class.java)
+        intent.putExtra("searchQuery", query)
         startActivity(intent)
     }
 }
