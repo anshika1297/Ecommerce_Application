@@ -25,13 +25,19 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = binding.ProductList
 
+        val url = intent.getStringExtra("url") ?: "https://dummyjson.com/products"
+        fetchData(url)
+    }
+
+    private fun fetchData(url: String) {
+        println("the url is $url")
         val retrofitBuilder = Retrofit.Builder()
-            .baseUrl("https://dummyjson.com/")
+            .baseUrl("$url/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiInterface::class.java)
 
-        val retrofitData = retrofitBuilder.getProducts()
+        val retrofitData = retrofitBuilder.getProductsByUrl(url)
         retrofitData.enqueue(object : Callback<MyDataClass?> {
             override fun onResponse(
                 call: Call<MyDataClass?>,
@@ -39,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val responseBody = response.body()
                 val productList = responseBody?.products
-
+                 println("${productList} here the Data is")
                 if (productList != null) {
                     myAdapter = MyAdapter(this@MainActivity, productList)
                     recyclerView.adapter = myAdapter

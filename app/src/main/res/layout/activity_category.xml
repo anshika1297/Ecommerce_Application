@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white"
+    tools:context=".CategoryActivity">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shopify- Lets Shop"
+        android:textStyle="bold"
+        android:textColor="#6c63fe"
+        android:textSize="30sp"
+        android:padding="15dp"
+        android:gravity="center"/>
+   <com.google.android.material.card.MaterialCardView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="8dp"
+       android:layout_marginVertical="10dp"
+       android:backgroundTint="@color/white">
+       <SearchView
+           android:id="@+id/searchView"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:queryHint="Search categories"
+           android:padding="8dp"/>
+
+   </com.google.android.material.card.MaterialCardView>
+
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/main_pageimage"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center"
+        tools:listitem="@layout/item_category" />
+
+</LinearLayout>
+
